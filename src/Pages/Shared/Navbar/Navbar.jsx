@@ -1,38 +1,40 @@
-// import { useContext } from "react";
+import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import logo from '../../../../public/photos/MusicSchool_Logo.png'
-// import { AuthContext } from "../../../Providers/AuthProvider";
-// import { FaShoppingCart } from 'react-icons/fa';
-// import useCART from "../../../Hook/useCART";
+import { useContext } from "react";
+import { AuthContext } from "../../../Provider/AuthProvider";
+import useCart from '../../../Hooks/useCart';
+
 
 const Navbar = () => {
-    // const { user, logOut } = useContext(AuthContext);
-    // const [cart] = useCART();
-    // const handleLogOut = () => {
-    //     logOut()
-    //         .then(() => { })
-    //         .catch(error => console.log(error));
-    // }
+    const { user, logOut } = useContext(AuthContext);
+    const [cart] = useCart();
+    // console.log(cart);
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.log(error));
+    }
     const navOptions = <>
         <li className=" no-underline hover:underline hover:text-amber-400"><Link to='/'> Home </Link></li>
         <li className="no-underline hover:underline  hover:text-amber-400"><Link to='instructor'> Instructors</Link></li>
         <li className="no-underline hover:underline"><Link to='class'>Classes</Link></li>
         <li className="no-underline hover:underline"><Link to='dashboard'>Dashboard</Link></li>
-        {/* <li>
-            <Link to="/dashboard/mycart">
+        <li>
+            <Link to="/dashboard/selectedclass">
                 <button className="btn">
                     <FaShoppingCart></FaShoppingCart>
-                    <div className="badge badge-secondary">+{cart?.length}</div>
+                    <div className="badge badge-secondary">+{cart?.length || 0}</div>
                 </button>
             </Link>
-        </li> */}
+        </li>
 
         {/* <li><Link to='/signup'>Sign Up</Link></li> */}
-        {/* {
+        {
             user ? <>
                 <span>{user.displayName} </span>
                 <button onClick={handleLogOut} className="btn btn-outline btn-primary">LOG OUT</button></> : <><li><Link to='/login'>Log IN</Link></li></>
-        } */}
+        }
     </>
 
     return (
@@ -51,6 +53,7 @@ const Navbar = () => {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 text-xl">
                     {navOptions}
+                    
                 </ul>
             </div>
             

@@ -4,7 +4,7 @@ const useClass = () => {
     const [classList,setClassList]=useState([]);
     const [loading,setLoading]=useState(true);
     useEffect(()=>{
-        fetch('Class.json')
+        fetch('http://localhost:5001/class')
             .then(res=>res.json())
             .then(data=>{
                 setClassList(data);
