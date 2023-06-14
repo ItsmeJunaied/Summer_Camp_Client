@@ -1,6 +1,7 @@
 import { FaWallet, FaCalendarAlt, FaHome, FaUtensilSpoon } from 'react-icons/fa';
 import { Link, Outlet } from "react-router-dom";
 import UseAdmin from '../Hooks/UseAdmin';
+import UseInstructorCheck from '../Hooks/UseInstructorCheck';
 // import useAdmin from '../Hook/useAdmin';
 // import useCart from '../Hooks/useCart';
 
@@ -8,9 +9,11 @@ const DashBoard = () => {
     // const [cart] = useCart();
 
     // const isAdmin = true;
-    const isinstructor = false;
+    // const isinstructor = false;
     const [isAdmin]=UseAdmin();
-    console.log(isAdmin); 
+    const[isInstructor]=UseInstructorCheck();
+    // console.log("isAdmin",isAdmin); 
+    // console.log('isInstructor',isInstructor); 
 
     return (
         <>
@@ -34,7 +37,7 @@ const DashBoard = () => {
                                 <li><Link to='/dashboard/manageclass'><FaCalendarAlt></FaCalendarAlt>Manage Classes</Link></li>
                                 <li><Link to='/dashboard/manageuser'><FaWallet></FaWallet>Manage Users</Link></li>
                             </> :
-                                isinstructor ? <>
+                                isInstructor ? <>
                                     <li><Link to='/dashboard/addclass'><FaUtensilSpoon></FaUtensilSpoon> Add a Class</Link></li>
                                     <li><Link to='/dashboard/myclass'><FaWallet></FaWallet>My Classes</Link></li>
                                 </> : <>

@@ -3,10 +3,10 @@ import useCart from "../../../../Hooks/useCart";
 import Swal from 'sweetalert2';
 
 const SelectedClass = () => {
-    const [cart,refetch] = useCart();
+    const [cart, refetch] = useCart();
     const total = cart.reduce((sum, item) => item.price + sum, 0);
     // console.log(total);
-    const handleDelete=(item)=>{
+    const handleDelete = (item) => {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -37,8 +37,12 @@ const SelectedClass = () => {
     return (
         <div className="CartContainer container mx-auto">
             <div className="Header">
-                <h3 className="Heading text-center">Sellected Courses</h3>
-                
+                <h3 className="Heading text-center">Image</h3>
+                <h3 className="Heading text-center ml-32">Email</h3>
+                <h3 className="Heading text-center ">Instructor</h3>
+                <h3 className="Heading text-center">Course</h3>
+                <h3 className="Heading text-center">Action</h3>
+
             </div>
             {
                 cart.map(item => <div key={item._id}
@@ -47,22 +51,29 @@ const SelectedClass = () => {
                         <img src={item.image} style={{ height: "120px" }} />
                     </div>
                     <div className="about mt-44">
-                        <h1 className="title">{item.name}</h1>
+                        <h1 className="title">{item.email}</h1>
 
                     </div>
                     <div className="counter">
                         <div className="count">{item.instructorName}</div>
                     </div>
+                    <div className="counter">
+                        <div className="count">{item.className}</div>
+                    </div>
                     <div className="prices mt-20">
                         <div className="amount">${item.price}</div>
-                        <button onClick={()=>handleDelete(item)} className="remove"><u>Remove</u></button>
+                        <div className=' flex flex-col'>
+                            <button onClick={() => handleDelete(item)} className="remove"><u>Remove</u></button>
+                            <button className="button">Checkout</button>
+                        </div>
+
                     </div>
-                    
+
                 </div>
-                
+
                 )
             }
-            
+
 
             <hr />
             <div className="checkout">
@@ -73,7 +84,6 @@ const SelectedClass = () => {
                     </div>
                     <div className="total-amount">${total}</div>
                 </div>
-                <button className="button">Checkout</button>
             </div>
         </div>
 

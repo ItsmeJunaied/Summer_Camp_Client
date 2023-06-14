@@ -1,14 +1,15 @@
-// import { useContext } from "react";
+
+import useClass from "../../Hooks/useClass";
 import useInstructor from "../../Hooks/useInstructor";
-// import { AuthContext } from "../../Provider/AuthProvider";
+
 
 
 const Instructor = () => {
   const [instructor] = useInstructor();
-  // const {loading} = useContext(AuthContext);
-  // if (loading) {
-  //   return <progress className="progress w-56"></progress>;
-  // }
+  const [classList] = useClass();
+  console.log('=>',classList);
+  console.log('***',instructor);
+
   return (
     <div className=" grid grid-cols-3 mt-20 pb-20 container mx-auto ">
       {

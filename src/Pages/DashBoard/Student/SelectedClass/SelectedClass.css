@@ -5,7 +5,7 @@
     border-radius: 20px;
     box-shadow: 0px 10px 20px #1687d933;
     background: linear-gradient(to bottom right, #E3F0FF, #FAFCFF);
-	height: 100vh;
+	height: 100%;
 }
 
 .Header{
@@ -36,10 +36,10 @@
 .Cart-Items{
 	margin: auto;
 	width: 90%;
-	height: 30%;
+	height: 20%;
 	display: flex;
 	justify-content: space-between;
-	/* align-items: center; */
+	align-items: center;
     align-items: center;
 }
 .image-box{
@@ -53,7 +53,7 @@
 .title{
 	padding-top: 10px;
 	line-height: 10px;
-	font-size: 32px;
+	font-size: 15px;
 	font-family: 'Open Sans';
 	font-weight: 800;
 	color: #202020;
@@ -136,6 +136,7 @@ hr{
 	width: 28%;
 }
 .total{
+	margin-top: 50px;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
@@ -167,7 +168,7 @@ hr{
 	background: linear-gradient(to bottom right, #B8D7FF, #8EB7EB);
 	border-radius: 20px;
 	cursor: pointer;
-	font-size: 16px;
+	font-size: 12px;
 	font-family: 'Open Sans';
 	font-weight: 600;
 	color: #202020;
