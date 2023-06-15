@@ -1,7 +1,8 @@
 import { FaWallet, FaCalendarAlt, FaHome, FaUtensilSpoon } from 'react-icons/fa';
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import UseAdmin from '../Hooks/UseAdmin';
 import UseInstructorCheck from '../Hooks/UseInstructorCheck';
+import UseAuth from '../Hooks/UseAuth';
 // import useAdmin from '../Hook/useAdmin';
 // import useCart from '../Hooks/useCart';
 
@@ -10,8 +11,9 @@ const DashBoard = () => {
 
     // const isAdmin = true;
     // const isinstructor = false;
-    const [isAdmin]=UseAdmin();
-    const[isInstructor]=UseInstructorCheck();
+    const { user } = UseAuth();
+    const [isAdmin] = UseAdmin();
+    const [isInstructor] = UseInstructorCheck();
     // console.log("isAdmin",isAdmin); 
     // console.log('isInstructor',isInstructor); 
 
@@ -31,26 +33,37 @@ const DashBoard = () => {
                 </div>
                 <div className="drawer-side bg-violet-700">
                     <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+                    <div className="avatar indicator">
+                        {
+                            isAdmin ? <span className="indicator-item badge badge-secondary mt-28 h-10 font-bold">Admin</span>: isInstructor? <span className="indicator-item badge badge-secondary mt-28 h-10 font-bold">Instructor</span> : <span className="indicator-item badge badge-secondary mt-28 h-10 font-bold">Student</span>
+                        }
+                        <div className="w-32 ml-24 mt-24 rounded-full ring ring-warning ring-offset-base-100 ring-offset-2">
+                            <img src={user?.photoURL} />
+                        </div>
+                    </div>
+                    <div>
+                        <h3 className=' text-white text-center uppercase font-serif font-bold text-2xl'>{user?.displayName}</h3>
+                    </div>
                     <ul className="menu p-4 w-80 h-full  text-white">
                         {
                             isAdmin ? <>
-                                <li><Link to='/dashboard/manageclass'><FaCalendarAlt></FaCalendarAlt>Manage Classes</Link></li>
-                                <li><Link to='/dashboard/manageuser'><FaWallet></FaWallet>Manage Users</Link></li>
+                                <li><NavLink to='/dashboard/manageclass'><FaCalendarAlt></FaCalendarAlt>Manage Classes</NavLink></li>
+                                <li><NavLink to='/dashboard/manageuser'><FaWallet></FaWallet>Manage Users</NavLink></li>
                             </> :
                                 isInstructor ? <>
-                                    <li><Link to='/dashboard/addclass'><FaUtensilSpoon></FaUtensilSpoon> Add a Class</Link></li>
-                                    <li><Link to='/dashboard/myclass'><FaWallet></FaWallet>My Classes</Link></li>
+                                    <li><NavLink to='/dashboard/addclass'><FaUtensilSpoon></FaUtensilSpoon> Add a Class</NavLink></li>
+                                    <li><NavLink to='/dashboard/myclass'><FaWallet></FaWallet>My Classes</NavLink></li>
                                 </> : <>
-                                    <li><Link to='/dashboard/selectedclass'><FaUtensilSpoon></FaUtensilSpoon>My Selected Classes</Link></li>
-                                    <li><Link to='/dashboard/enrolledclass'><FaWallet></FaWallet>My Enrolled Classes</Link></li>
+                                    <li><NavLink to='/dashboard/selectedclass'><FaUtensilSpoon></FaUtensilSpoon>My Selected Classes</NavLink></li>
+                                    <li><NavLink to='/dashboard/enrolledclass'><FaWallet></FaWallet>My Enrolled Classes</NavLink></li>
                                 </>
                         }
 
 
                         <div className="divider"></div>
-                        <li><Link to='/'><FaHome></FaHome>Home</Link></li>
-                        <li><Link to='/instructor'><FaHome></FaHome>Instructor</Link></li>
-                        <li><Link to='/class'><FaHome></FaHome>Class</Link></li>
+                        <li><NavLink to='/'><FaHome></FaHome>Home</NavLink></li>
+                        <li><NavLink to='/instructor'><FaHome></FaHome>Instructor</NavLink></li>
+                        <li><NavLink to='/class'><FaHome></FaHome>Class</NavLink></li>
                     </ul>
 
                 </div>

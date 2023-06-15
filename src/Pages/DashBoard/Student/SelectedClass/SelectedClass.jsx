@@ -1,9 +1,12 @@
 import './SelectedClass.css';
 import useCart from "../../../../Hooks/useCart";
 import Swal from 'sweetalert2';
+import { Link, useParams } from 'react-router-dom';
 
 const SelectedClass = () => {
     const [cart, refetch] = useCart();
+    const { id } = useParams();
+
     const total = cart.reduce((sum, item) => item.price + sum, 0);
     // console.log(total);
     const handleDelete = (item) => {
@@ -64,7 +67,7 @@ const SelectedClass = () => {
                         <div className="amount">${item.price}</div>
                         <div className=' flex flex-col'>
                             <button onClick={() => handleDelete(item)} className="remove"><u>Remove</u></button>
-                            <button className="button">Checkout</button>
+                            <Link to={`/dashboard/payment/${item._id}`} ><button  className="button">Checkout</button></Link>
                         </div>
 
                     </div>

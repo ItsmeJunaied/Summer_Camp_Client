@@ -1,5 +1,5 @@
 import { FaShoppingCart } from 'react-icons/fa';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from '../../../../public/photos/MusicSchool_Logo.png'
 import { useContext } from "react";
 import { AuthContext } from "../../../Provider/AuthProvider";
@@ -8,6 +8,7 @@ import useCart from '../../../Hooks/useCart';
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
+    // console.log(user);
     const [cart] = useCart();
     // console.log(cart);
     const handleLogOut = () => {
@@ -16,24 +17,30 @@ const Navbar = () => {
             .catch(error => console.log(error));
     }
     const navOptions = <>
-        <li className=" no-underline hover:underline hover:text-amber-400"><Link to='/'> Home </Link></li>
-        <li className="no-underline hover:underline  hover:text-amber-400"><Link to='instructor'> Instructors</Link></li>
-        <li className="no-underline hover:underline"><Link to='class'>Classes</Link></li>
-        <li className="no-underline hover:underline"><Link to='dashboard'>Dashboard</Link></li>
+        <li className=" no-underline hover:underline hover:text-amber-400"><NavLink to='/'> Home </NavLink></li>
+        <li className="no-underline hover:underline  hover:text-amber-400"><NavLink to='instructor'> Instructors</NavLink></li>
+        <li className="no-underline hover:underline"><NavLink to='class'>Classes</NavLink></li>
+        <li className="no-underline hover:underline"><NavLink to='dashboard'>Dashboard</NavLink></li>
         <li>
-            <Link to="/dashboard/selectedclass">
+            <NavLink to="/dashboard/selectedclass">
                 <button className="btn">
                     <FaShoppingCart></FaShoppingCart>
                     <div className="badge badge-secondary">+{cart?.length || 0}</div>
                 </button>
-            </Link>
+            </NavLink>
         </li>
 
-        {/* <li><Link to='/signup'>Sign Up</Link></li> */}
+        {/* <li><NavLink to='/signup'>Sign Up</NavLink></li> */}
         {
             user ? <>
-                <span>{user.displayName} </span>
-                <button onClick={handleLogOut} className="btn btn-outline btn-primary">LOG OUT</button></> : <><li><Link to='/login'>Log IN</Link></li></>
+                <span>
+                    <div className="avatar">
+                        <div className="w-10 mr-10 ml-5 mt-2 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                            <img src={user?.photoURL} />
+                        </div>
+                    </div>
+                </span>
+                <button onClick={handleLogOut} className="btn btn-outline btn-primary">LOG OUT</button></> : <><li><NavLink to='/login'>Log IN</NavLink></li></>
         }
     </>
 
@@ -53,10 +60,10 @@ const Navbar = () => {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 text-xl">
                     {navOptions}
-                    
+
                 </ul>
             </div>
-            
+
         </div>
     );
 };
