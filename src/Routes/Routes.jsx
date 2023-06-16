@@ -15,6 +15,7 @@ import MyClass from "../Pages/DashBoard/Instructor/MyClass/MyClass";
 import SelectedClass from "../Pages/DashBoard/Student/SelectedClass/SelectedClass";
 import EnrolledClass from "../Pages/DashBoard/Student/EnrolledClass/EnrolledClass";
 import Payment from "../Pages/Payment/Payment";
+import PaymentHistory from "../Pages/DashBoard/Student/PaymentHistory/PaymentHistory";
 
 
 
@@ -58,6 +59,11 @@ export const router = createBrowserRouter([
         path: 'payment/:id',
         element: <Payment></Payment>,
         // loader:({params})=>fetch(`http://localhost:5001/users/${params.id}`)
+      },
+      {
+        path: 'payhistory',
+        element: <PaymentHistory></PaymentHistory>,
+        
       },
       {
         path: 'manageuser',
