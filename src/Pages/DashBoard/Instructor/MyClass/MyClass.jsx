@@ -40,8 +40,6 @@ const MyClass = () => {
                                     <td>Feedback</td>
                                 </div>
                             </div>
-
-                            {/* <td>Feedback</td> */}
                             <td>
                                 <button className="btn btn-error btn-sm">Update</button>
                             </td>
