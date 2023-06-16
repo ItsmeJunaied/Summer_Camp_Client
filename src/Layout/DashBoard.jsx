@@ -56,6 +56,7 @@ const DashBoard = () => {
                                 </> : <>
                                     <li><NavLink to='/dashboard/selectedclass'><FaUtensilSpoon></FaUtensilSpoon>My Selected Classes</NavLink></li>
                                     <li><NavLink to='/dashboard/enrolledclass'><FaWallet></FaWallet>My Enrolled Classes</NavLink></li>
+                                    <li><NavLink to='/dashboard/payhistory'><FaWallet></FaWallet>Payment History</NavLink></li>
                                 </>
                         }
 
