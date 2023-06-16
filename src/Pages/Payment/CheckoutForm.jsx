@@ -123,8 +123,6 @@ const CheckoutForm = ({ cart, price, classid }) => {
   .then(res => {
     console.log(res.data);
     if (res.data.deleteResult.deletedCount > 0) {
-      
-
       const newAvailableSeats = parseInt(availableSeats) - 1;
       axiosSecure.patch(`/class/seat/${ClassID}`, { availableSeats: newAvailableSeats })
         .then(response => {
