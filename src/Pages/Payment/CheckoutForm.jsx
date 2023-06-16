@@ -4,29 +4,59 @@ import { useState } from "react";
 // import './CheckoutForm.css'
 import UseAxios from "../../Hooks/UseAxios";
 import UseAuth from "../../Hooks/UseAuth";
+import Swal from "sweetalert2";
+import useClass from "../../Hooks/useClass";
 
 
 
-const CheckoutForm = ({ cart, price }) => {
+const CheckoutForm = ({ cart, price, classid }) => {
     const stripe = useStripe();
     const elements = useElements();
     const { user } = UseAuth();
+    const [classList] = useClass();
     const [axiosSecure] = UseAxios()
     const [cardError, setCardError] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     const [processing, setProcessing] = useState(false);
     const [transactionId, setTransactionId] = useState('');
+    const [availableSeats, setAvailableSeats] = useState([]);
+    const [ClassID, setClassID] = useState('');
 
     useEffect(() => {
+
+        const seats = classList.map(item => item.availableSeats);
+        setAvailableSeats(seats);
+    }, [classList]);
+
+
+
+    useEffect(() => {
+        if (classid && classid.length > 0) {
+            const clsid = classid[0]._id;
+            setClassID(clsid);
+        }
+    }, [classid]);
+
+    // console.log(ClassID);
+
+
+    // console.log(ClassID);
+    //   console.log(availableSeats);
+    //   console.log(user);
+
+    useEffect(() => {
+        // console.log(price);
         if (price > 0) {
+            // console.log('api call')
             axiosSecure.post('/create-payment-intent', { price })
                 .then(res => {
-                    console.log(res.data.clientSecret)
+                    // console.log(res.data.clientSecret);
                     setClientSecret(res.data.clientSecret);
                 })
         }
     }, [price, axiosSecure])
 
+    // console.log(clientSecret);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -85,15 +115,36 @@ const CheckoutForm = ({ cart, price }) => {
                 date: new Date(),
                 quantity: cart.length,
                 cartItems: cart.map(item => item._id),
-                menuItems: cart.map(item => item.menuItemId),
+                classItems: cart.map(item => item.classId),
                 status: 'service pending',
                 itemNames: cart.map(item => item.name)
             }
             axiosSecure.post('/payments', payment)
                 .then(res => {
                     console.log(res.data);
-                    if (res.data.result.insertedId) {
+                    if (res.data.deleteResult.deletedCount > 0) {
                         // display confirm
+
+                        const newAvailableSeats = parseInt(availableSeats) - 1;
+                        fetch(`http://localhost:5001/class/seat/${ClassID}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ availableSeats: newAvailableSeats })
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.modifiedCount) {
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Added to cart',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            })
                     }
                 })
         }
@@ -120,7 +171,8 @@ const CheckoutForm = ({ cart, price }) => {
                         },
                     }}
                 />
-                <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe || !clientSecret || processing}>
+                <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe}>
+                    {/* || !clientSecret || processing */}
                     Pay
                 </button>
             </form>

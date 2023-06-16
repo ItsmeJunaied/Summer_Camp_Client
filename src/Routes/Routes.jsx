@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
       {
         path: 'payment/:id',
         element: <Payment></Payment>,
-        loader:({params})=>fetch(`http://localhost:5001/users/${params.id}`)
+        // loader:({params})=>fetch(`http://localhost:5001/users/${params.id}`)
       },
       {
         path: 'manageuser',
