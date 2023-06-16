@@ -4,13 +4,16 @@ import logo from '../../../../public/photos/MusicSchool_Logo.png'
 import { useContext } from "react";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import useCart from '../../../Hooks/useCart';
+import UseInstructorCheck from '../../../Hooks/UseInstructorCheck';
+import useAdmin from '../../../Hooks/UseAdmin';
 
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
-    // console.log(user);
+    const [isAdmin] = useAdmin();
+    const [isInstructor] = UseInstructorCheck();
     const [cart] = useCart();
-    // console.log(cart);
+
     const handleLogOut = () => {
         logOut()
             .then(() => { })
@@ -21,14 +24,16 @@ const Navbar = () => {
         <li className="no-underline hover:underline  hover:text-amber-400"><NavLink to='instructor'> Instructors</NavLink></li>
         <li className="no-underline hover:underline"><NavLink to='class'>Classes</NavLink></li>
         <li className="no-underline hover:underline"><NavLink to='dashboard'>Dashboard</NavLink></li>
-        <li>
-            <NavLink to="/dashboard/selectedclass">
-                <button className="btn">
-                    <FaShoppingCart></FaShoppingCart>
-                    <div className="badge badge-secondary">+{cart?.length || 0}</div>
-                </button>
-            </NavLink>
-        </li>
+        {(!isAdmin && !isInstructor && user) && (
+                <li>
+                    <NavLink to="/dashboard/selectedclass">
+                        <button className="btn">
+                            <FaShoppingCart></FaShoppingCart>
+                            <div className="badge badge-secondary">+{cart?.length || 0}</div>
+                        </button>
+                    </NavLink>
+                </li>
+            )}
 
         {/* <li><NavLink to='/signup'>Sign Up</NavLink></li> */}
         {

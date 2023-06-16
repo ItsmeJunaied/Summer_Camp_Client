@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
-
+import logo from '../../../public/photos/Screenshot_418.png';
 
 const SocialLogin = () => {
     const {googleSignIN}=useContext(AuthContext);
@@ -32,9 +32,9 @@ const SocialLogin = () => {
     }
     return (
         <div>
-            <div className="divider"></div>
-            <button onClick={handleGooglesignIN} className="btn btn-circle btn-outline">
-                <FaGoogle></FaGoogle>
+            <div className="divider w-60 ml-16"></div>
+            <button onClick={handleGooglesignIN} className="ml-20 mb-5">
+                <img src={logo} alt="" />
             </button>
         </div>
     );

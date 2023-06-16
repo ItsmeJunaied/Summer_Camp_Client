@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import useClass from "../../../../Hooks/useClass";
 
+import UseInstructorCheck from "../../../../Hooks/UseInstructorCheck";
+import UseAuth from "../../../../Hooks/UseAuth";
+
 
 const MyClass = () => {
     const [classList] = useClass();
     const [history, setHistory] = useState([]);
 
+    const [matchedClass, setMatchedClass] = useState([]);
+    console.log(matchedClass)
     const ids = history.map(item => item.classItems);
+    const {user}=UseAuth();
+    // console.log(user.email);
 
     const handleUpdate=(item)=>{
         console.log(item._id)
@@ -17,6 +24,15 @@ const MyClass = () => {
             .then(res => res.json())
             .then(data => setHistory(data))
     }, [])
+
+    useEffect(() => {
+        if (user && user.email) {
+          const matched = classList.filter(item => item?.instructorEmail === user.email);
+          setMatchedClass(matched);
+        }
+      }, [classList, user]);
+
+
     return (
         <div className="overflow-x-auto">
             <h2 className=' font-bold text-5xl text-center text-cyan-600 mb-20'>My Class</h2>
@@ -34,7 +50,7 @@ const MyClass = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {classList.map(item => {
+                    {matchedClass.map(item => {
                         const idCount = ids.filter(id => id == item._id.toString()).length;
 
                         return (

@@ -7,7 +7,7 @@ const ManageClass = () => {
     const [classList] = useClass();
     const { register, handleSubmit } = useForm();
     const [status, setStatus] = useState('pending');
-    console.log(status);
+    // console.log(status);
     const [modalOpen, setModalOpen] = useState(false);
     const [isUpdated, setIsUpdated] = useState(false);
 
@@ -166,8 +166,28 @@ const ManageClass = () => {
             </table>
             {modalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center z-50">
-                    <div className="bg-white p-4 rounded-md">
-                        <h2 className="text-xl font-semibold mb-4">Send Feedback</h2>
+                    <div className="w-96 p-4 rounded-md border bg-orange-400">
+                        <div className="flex justify-end">
+                            <button
+                                className="text-gray-500 hover:text-gray-700"
+                                onClick={() => setModalOpen(false)}
+                            >
+                                <svg
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                        <h2 className="text-xl text-center font-semibold mb-4">Send Feedback</h2>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <textarea
                                 className="w-full border border-gray-300 rounded-md p-2 mb-4"
@@ -176,21 +196,18 @@ const ManageClass = () => {
                                 {...register('feedback')}
                             />
 
-                            <div className="flex justify-end">
+                            <div className="flex justify-center">
                                 <input
                                     type="submit"
-                                    className="btn btn-primary mr-2"
+                                    className="btn btn-primary"
                                     value="Send"
-
                                 />
                             </div>
                         </form>
                     </div>
                 </div>
-
-
-
             )}
+
         </div>
     );
 };

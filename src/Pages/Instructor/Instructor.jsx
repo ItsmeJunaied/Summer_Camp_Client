@@ -24,7 +24,7 @@ const Instructor = () => {
         {
           instructor.map(item => <div key={item._id}
             className="card w-96 bg-base-100 shadow-xl mb-20">
-            <figure><img src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" /></figure>
+            <figure><img className=" w-fit h-60" src={item.image} alt="Instructor" /></figure>
             <div className="card-body">
               <h2 className="card-title">
                 {item.name}
@@ -32,8 +32,8 @@ const Instructor = () => {
               </h2>
               <p>{item.email}</p>
               <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
+                <div className="badge badge-outline">Music</div>
+                <div className="badge badge-outline">Instrument</div>
               </div>
             </div>
           </div>)

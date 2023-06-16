@@ -88,7 +88,7 @@ const ManageUser = () => {
                             refetch();
                             Swal.fire(
                                 'Deleted!',
-                                'Your file has been deleted.',
+                                'User has been deleted.',
                                 'success'
                             )
                         }
@@ -98,6 +98,9 @@ const ManageUser = () => {
     }
     return (
         <div>
+            <div className=" divider w-52 " style={{marginLeft:'700px'}}></div>
+            <h2 className=" text-center text-3xl font-bold text-cyan-700">Manage User</h2>
+            <div className=" divider w-52" style={{marginLeft:'700px'}}></div>
             <div className="overflow-x-auto">
                 <table className="table table-zebra">
                     {/* head */}
@@ -106,7 +109,9 @@ const ManageUser = () => {
                             <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Role</th>
+                            <th >Role
+                                <span><p><span className=" text-secondary">Admin </span><span className=" text-accent ml-3">Instructor</span></p></span>
+                            </th>
                             <th>Remove</th>
                         </tr>
                     </thead>
@@ -117,10 +122,24 @@ const ManageUser = () => {
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
 
-                                <td>{user.role === 'admin' ? 'admin' : <button onClick={() => handleMakeAdmin(user)} className="btn btn-sm btn-secondary text-white mr-3" ><FaUserShield></FaUserShield></button>}
+                                <td>
+                                    {user.role === 'admin' ? (
+                                        'admin'
+                                    ) : (
+                                        <button onClick={() => handleMakeAdmin(user)} className="btn btn-sm btn-secondary text-white mr-3" disabled={user.role === 'Instructor'} >
+                                            <FaUserShield />
+                                        </button>
+                                    )}
 
-                                    {user.role === 'instructor' ? 'instructor' : <button onClick={() => handleMakeInstructor(user)} className="btn btn-sm btn-accent text-white" ><FaChalkboardTeacher></FaChalkboardTeacher></button>}
+                                    {user.role === 'Instructor' ? (
+                                        'Instructor'
+                                    ) : (
+                                        <button onClick={() => handleMakeInstructor(user)} className="btn btn-sm btn-accent text-white" disabled={user.role === 'admin'}>
+                                            <FaChalkboardTeacher />
+                                        </button>
+                                    )}
                                 </td>
+
 
                                 <td>
                                     <td>
