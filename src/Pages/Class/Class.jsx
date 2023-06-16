@@ -6,10 +6,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import logo from '../../../public/photos/Class Header 2.svg';
 import './Class.css';
 
-const Class = () => {
+import useAdmin from "../../Hooks/UseAdmin";
+import UseInstructorCheck from "../../Hooks/UseInstructorCheck";
 
+const Class = () => {
+  const [isAdmin] = useAdmin();
+  const [isInstructor] = UseInstructorCheck();
   const [classList] = useClass();
 
+  // console.log(isAdmin);
 
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -17,15 +22,15 @@ const Class = () => {
 
   // const selectedItem = { classId: _id, name, className, image, instructorName, price, email: user.email };
   const handleAddToCart = item => {
-    const {_id,name,  instructorName,  price ,className, image }= item ;
+    const { _id, name, instructorName, price, className, image } = item;
     console.log(name);
     console.log(item);
     if (user && user.email) {
-      const selectedItem={classId: _id, name, className, image, instructorName, price, email: user.email}
-      fetch('http://localhost:5001/carts',{
-        method:'POST',
-        headers:{
-          'content-type':'application/json'
+      const selectedItem = { classId: _id, name, className, image, instructorName, price, email: user.email }
+      fetch('http://localhost:5001/carts', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
         },
         body: JSON.stringify(selectedItem)
       })
@@ -45,7 +50,7 @@ const Class = () => {
                 <span>Please Login</span>
               </div>
             </div>
-            navigate('/login', {state:{from: location}})
+            navigate('/login', { state: { from: location } })
           }
         })
     }
@@ -72,20 +77,24 @@ const Class = () => {
                 <figure>
                   <img src={item.image} alt="Movie" />
                 </figure>
-                <div className="card-body">
-                  <h2 className="card-title">{item.className}</h2>
-                  <p>Instructor: {item.instructorName}</p>
-                  <h2>
-                    Price: <span className="badge badge-secondary">{item.price}</span>{" "}
-                  </h2>
-                  <h2>
-                    Seats:{" "}
-                    <span className="badge badge-secondary">{item.availableSeats}</span>{" "}
-                  </h2>
-                  <div className="card-actions justify-end">
-                    <button onClick={() => handleAddToCart(item)} className="btn btn-primary">
+                <div className="card-body w-full">
+                  <h2 > <span className="ml-32 class-sub text-3xl text-orange-400">Course</span><span className='card-title font-serif mb-2'>{item.className}</span> </h2>
+                  <p>Instructor: <span className=" font-bold">{item.instructorName}</span></p>
+                  <div className=" flex justify-between">
+                    <h2>
+                      Price: <span className="badge badge-secondary">{item.price}</span>{" "}
+                    </h2>
+                    <h2>
+                      Seats:{" "}
+                      <span className="badge badge-accent">{item.availableSeats}</span>{" "}
+                    </h2>
+                  </div>
+                  <div className="card-actions justify-center">
+                    {/* {(!isAdmin && !isInstructor) && ( */}
+                    <button onClick={() => handleAddToCart(item)} className="btn btn-primary btn-sm">
                       Enroll
                     </button>
+                    {/* )} */}
                   </div>
                 </div>
               </div>

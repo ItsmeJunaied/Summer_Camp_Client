@@ -1,51 +1,73 @@
+import { useForm } from "react-hook-form";
+import UseAxios from "../../Hooks/UseAxios";
+import UseAuth from "../../Hooks/UseAuth";
+import { useLoaderData, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+import useClass from "../../Hooks/useClass";
+import Swal from "sweetalert2";
 
-import { useForm } from 'react-hook-form';
-import UseAuth from '../../../../Hooks/UseAuth';
-import UseAxios from '../../../../Hooks/UseAxios';
-import Swal from 'sweetalert2';
 
 const img_token = import.meta.env.VITE_IMAGE_TOKEN;
-const AddClass = () => {
-
+const UpdateClass = () => {
     const { user } = UseAuth();
+    const [classList] = useClass();
     const [axiosSecure] = UseAxios();
+    // const [selectedItem, setSelectedItem] = useState(null);
     const { register, handleSubmit, reset } = useForm();
-    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_token}`
-    const onSubmit = (data) => {
-        console.log(data)
-        const formData = new FormData();
-        formData.append('image', data.image[0])
+    const { id } = useParams();
 
-        fetch(img_hosting_url, {
-            method: 'POST',
-            body: formData
+    // console.log(id)
+
+    // const selectedItem = classList.find(item => item._id === id);
+
+
+    // const {image}=selectedItem ;
+
+    // console.log(image)
+
+    const onSubmit = (data) => {
+        const { className, price, availableSeats } = data;
+      
+        const selectedData = {
+          className,
+          price,
+          availableSeats,
+        };
+      
+        console.log(selectedData);
+        fetch(`http://localhost:5001/class/update/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(selectedData),
         })
-            .then(res => res.json())
-            .then(imgResponse => {
-                // console.log(imgResponse);
-                if (imgResponse.success) {
-                    const imgURL = imgResponse.data.display_url;
-                    const { className,availableSeats, price, instructorEmail, instructorName } = data;
-                    const newItem = { className, price: parseFloat(price), availableSeats,instructorEmail, instructorName, image: imgURL, status: 'pending' };
-                    console.log(newItem);
-                    axiosSecure.post('/class', newItem)
-                        .then(data => {
-                            console.log(data);
-                            console.log('after posting new class', data.data);
-                            if (data.data.insertedId) {
-                                reset();
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'success',
-                                    title: 'Added Class',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                  })
-                            }
-                        })
-                }
-            })
-    };
+          .then((res) => res.json())
+          .then((data) => {
+            
+            if (data.modifiedCount > 0) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Successfully Updated',
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href="">Why do I have this issue?</a>',
+              });
+            }
+          });
+      };
+      
+
+
+
     return (
         <div className=" container mx-auto mt-32">
             <h2 className=' font-bold text-5xl text-center text-cyan-600 mb-20'>Add Class</h2>
@@ -56,7 +78,8 @@ const AddClass = () => {
                 <div className="flex mb-4">
                     <div className="w-3/5 pr-4">
                         <label htmlFor="className" className="block text-gray-700 text-sm font-bold mb-2">
-                            Class name
+                            <span className="input__label">Class Name <span className=' font-extrabold text-red-700'>[Update]*</span></span>
+
                         </label>
                         <input
                             type="text"
@@ -64,6 +87,7 @@ const AddClass = () => {
                             className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             {...register('className', { required: true })}
                         />
+
                     </div>
                     <div className="w-3/5 pl-4">
                         <label htmlFor="classImage" className="block text-gray-700 text-sm font-bold mb-2">
@@ -73,7 +97,8 @@ const AddClass = () => {
                             type="file"
                             id="classImage"
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-                            {...register('image', { required: true })}
+                            {...register('image')} disabled
+
                         />
                     </div>
                 </div>
@@ -110,7 +135,8 @@ const AddClass = () => {
                 <div className="flex mb-4">
                     <div className="w-3/5 pr-4">
                         <label htmlFor="price" className="block text-gray-700 text-sm font-bold mb-2">
-                            Price
+                            <span className="input__label">Price <span className=' font-extrabold text-red-700'>[Update]*</span></span>
+
                         </label>
                         <input
                             type="number"
@@ -119,10 +145,12 @@ const AddClass = () => {
                             placeholder='$'
                             {...register('price', { required: true })}
                         />
+
                     </div>
                     <div className="w-3/5 pl-4">
                         <label htmlFor="availableSeats" className="block text-gray-700 text-sm font-bold mb-2">
-                            Available seats
+                            <span className="input__label">Available seats <span className=' font-extrabold text-red-700'>[Update]*</span></span>
+
                         </label>
                         <input
                             type="number"
@@ -130,6 +158,7 @@ const AddClass = () => {
                             className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             {...register('availableSeats', { required: true })}
                         />
+
                     </div>
                 </div>
 
@@ -141,6 +170,6 @@ const AddClass = () => {
             </form>
         </div>
     );
-}
+};
 
-export default AddClass;
+export default UpdateClass;

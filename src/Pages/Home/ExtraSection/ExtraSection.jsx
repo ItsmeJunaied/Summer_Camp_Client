@@ -15,7 +15,7 @@ const ExtraSection = () => {
                     className="btn btn-active btn-accent absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     onClick={() => window.my_modal_4.showModal()}
                 >
-                    Open Modal
+                    Watch
                 </button>
                 <dialog id="my_modal_4" className="modal">
                     <form method="dialog" className="modal-box w-11/12 max-w-5xl">

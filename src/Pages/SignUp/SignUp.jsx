@@ -48,9 +48,9 @@ const SignUp = () => {
             })
     };
 
-    // console.log(watch("example"));
+    
     return (
-        // <h1 className="text-5xl font-bold">Sign Up now!</h1>
+        
         <>
             <div className="hero min-h-screen bg-base-200">
                 <div className="hero-content flex-col lg:flex-row-reverse">

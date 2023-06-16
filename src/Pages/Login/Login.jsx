@@ -13,6 +13,7 @@ const Login = () => {
     const { signIn } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
+    const [error, setError] = useState('');
     const { handleSubmit, register, formState: { errors } } = useForm();
     const from = location.state?.from?.pathname || "/";
 
@@ -32,7 +33,10 @@ const Login = () => {
                     timer: 1500
                 })
                 navigate(from, { replace: true });
-            })
+              })
+              .catch(error => {
+                setError(error.message); 
+              });
     });
 
     return (
@@ -63,6 +67,7 @@ const Login = () => {
                       <span className="label-text">Password</span>
                     </label>
                     <input type={show ? "text" : "password"} name="password" placeholder="password" className="relative input input-bordered" {...register('password', { required: true })} />
+                    <p className=" text-red-800">{error}</p>
                     <p className="absolute mt-14 ml-72" onClick={() => setShow(!show)}>
                       <small>
                         {show ? <span><BiHide /></span> : <span><BiShow /></span>}

@@ -3,6 +3,7 @@ import useClass from "../../../../Hooks/useClass";
 
 import UseInstructorCheck from "../../../../Hooks/UseInstructorCheck";
 import UseAuth from "../../../../Hooks/UseAuth";
+import { Link } from "react-router-dom";
 
 
 const MyClass = () => {
@@ -10,14 +11,10 @@ const MyClass = () => {
     const [history, setHistory] = useState([]);
 
     const [matchedClass, setMatchedClass] = useState([]);
-    console.log(matchedClass)
+    // console.log(matchedClass)
     const ids = history.map(item => item.classItems);
     const {user}=UseAuth();
-    // console.log(user.email);
-
-    const handleUpdate=(item)=>{
-        console.log(item._id)
-    }
+    
 
     useEffect(() => {
         fetch('http://localhost:5001/payments')
@@ -77,7 +74,7 @@ const MyClass = () => {
                                     </div>
                                 </div>
                                 <td>
-                                    <button onClick={()=>handleUpdate(item)} className="btn btn-error btn-sm">Update</button>
+                                    <Link to={`/dashboard/update/${item._id}`}><button  className="btn btn-error btn-sm">Update</button></Link>
                                 </td>
                             </tr>
                         );
