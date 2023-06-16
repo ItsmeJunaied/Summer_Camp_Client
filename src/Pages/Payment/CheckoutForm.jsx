@@ -120,33 +120,29 @@ const CheckoutForm = ({ cart, price, classid }) => {
                 itemNames: cart.map(item => item.name)
             }
             axiosSecure.post('/payments', payment)
-                .then(res => {
-                    console.log(res.data);
-                    if (res.data.deleteResult.deletedCount > 0) {
-                        // display confirm
+  .then(res => {
+    console.log(res.data);
+    if (res.data.deleteResult.deletedCount > 0) {
+      
 
-                        const newAvailableSeats = parseInt(availableSeats) - 1;
-                        fetch(`http://localhost:5001/class/seat/${ClassID}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ availableSeats: newAvailableSeats })
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.modifiedCount) {
-                                    Swal.fire({
-                                        position: 'top-end',
-                                        icon: 'success',
-                                        title: 'Added to cart',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    });
-                                }
-                            })
-                    }
-                })
+      const newAvailableSeats = parseInt(availableSeats) - 1;
+      axiosSecure.patch(`/class/seat/${ClassID}`, { availableSeats: newAvailableSeats })
+        .then(response => {
+          if (response.data.modifiedCount) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Removed seat',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  });
         }
 
 
