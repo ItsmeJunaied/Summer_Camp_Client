@@ -7,48 +7,68 @@ import UseAxios from "../../../../Hooks/UseAxios";
 const ManageUser = () => {
     // const [activeRoles, setActiveRoles] = useState({});
     const [axiosSecure] = UseAxios();
-    const {data: users=[], refetch}= useQuery(['users'], async()=>{
-        const res= await axiosSecure.get('/users')
+    const { data: users = [], refetch } = useQuery(['users'], async () => {
+        const res = await axiosSecure.get('/users')
         return res.data;
     })
-    const handleMakeAdmin =user=>{
-        fetch(`http://localhost:5001/users/admin/${user._id}`,{
+    console
+    const handleMakeAdmin = user => {
+        fetch(`http://localhost:5001/users/admin/${user._id}`, {
             method: 'PATCH'
         })
-        .then(res=>res.json())
-        .then(data=>{
-            if(data.modifiedCount){
-                refetch();
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: `${user.name} is an admin now`,
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
-            }
-        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount) {
+                    refetch();
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: `${user.name} is an admin now`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            })
     }
 
-    const handleMakeInstructor =user=>{
-        fetch(`http://localhost:5001/users/Instructor/${user._id}`,{
+    const handleMakeInstructor = user => {
+        fetch(`http://localhost:5001/users/Instructor/${user._id}`, {
             method: 'PATCH'
         })
-        .then(res=>res.json())
-        .then(data=>{
-            if(data.modifiedCount){
-                refetch();
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: `${user.name} is an Instructor now`,
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
-            }
-        })
-    }
-    const handleDelete=user=>{
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount) {
+                    fetch('http://localhost:5001/instructor', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(user)
+                    })
+                        .then((res) => res.json())
+                        .then((instructorData) => {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: `Instructor inserted`,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        });
+
+                    refetch();
+
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: `${user.name} is an Instructor now`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+    };
+    const handleDelete = user => {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -97,14 +117,14 @@ const ManageUser = () => {
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
 
-                                <td>{user.role === 'admin' ? 'admin' : <button onClick={()=> handleMakeAdmin(user)} className="btn btn-sm btn-secondary text-white mr-3" ><FaUserShield></FaUserShield></button>}
+                                <td>{user.role === 'admin' ? 'admin' : <button onClick={() => handleMakeAdmin(user)} className="btn btn-sm btn-secondary text-white mr-3" ><FaUserShield></FaUserShield></button>}
 
-                                {user.role === 'instructor' ? 'instructor' : <button onClick={()=> handleMakeInstructor(user)} className="btn btn-sm btn-accent text-white" ><FaChalkboardTeacher></FaChalkboardTeacher></button>}
+                                    {user.role === 'instructor' ? 'instructor' : <button onClick={() => handleMakeInstructor(user)} className="btn btn-sm btn-accent text-white" ><FaChalkboardTeacher></FaChalkboardTeacher></button>}
                                 </td>
 
                                 <td>
                                     <td>
-                                        <button onClick={()=>handleDelete(user)} className="btn btn-ghost bg-red-600 text-white"><FaTrashAlt></FaTrashAlt></button>
+                                        <button onClick={() => handleDelete(user)} className="btn btn-ghost bg-red-600 text-white"><FaTrashAlt></FaTrashAlt></button>
                                     </td>
                                 </td>
                             </tr>)
