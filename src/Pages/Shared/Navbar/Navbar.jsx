@@ -19,21 +19,29 @@ const Navbar = () => {
             .then(() => { })
             .catch(error => console.log(error));
     }
+    const handleTheme = () => {
+        const htmlElement = document.querySelector('html');
+        if (htmlElement.getAttribute('data-theme') === 'light') {
+            htmlElement.setAttribute('data-theme', 'dark');
+        } else {
+            htmlElement.setAttribute('data-theme', 'light');
+        }
+    }
     const navOptions = <>
         <li className=" no-underline hover:underline hover:text-amber-400"><NavLink to='/'> Home </NavLink></li>
         <li className="no-underline hover:underline  hover:text-amber-400"><NavLink to='instructor'> Instructors</NavLink></li>
         <li className="no-underline hover:underline"><NavLink to='class'>Classes</NavLink></li>
         <li className="no-underline hover:underline"><NavLink to='dashboard'>Dashboard</NavLink></li>
         {(!isAdmin && !isInstructor && user) && (
-                <li>
-                    <NavLink to="/dashboard/selectedclass">
-                        <button className="btn">
-                            <FaShoppingCart></FaShoppingCart>
-                            <div className="badge badge-secondary">+{cart?.length || 0}</div>
-                        </button>
-                    </NavLink>
-                </li>
-            )}
+            <li>
+                <NavLink to="/dashboard/selectedclass">
+                    <button className="btn">
+                        <FaShoppingCart></FaShoppingCart>
+                        <div className="badge badge-secondary">+{cart?.length || 0}</div>
+                    </button>
+                </NavLink>
+            </li>
+        )}
 
         {/* <li><NavLink to='/signup'>Sign Up</NavLink></li> */}
         {
@@ -47,6 +55,9 @@ const Navbar = () => {
                 </span>
                 <button onClick={handleLogOut} className="btn btn-outline btn-primary">LOG OUT</button></> : <><li><NavLink to='/login'>Log IN</NavLink></li></>
         }
+        <li>
+            <button className=' btn btn-secondary btn-sm text-white ml-3' onClick={() => handleTheme()}>Dark</button>
+        </li>
     </>
 
     return (

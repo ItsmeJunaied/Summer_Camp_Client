@@ -18,6 +18,7 @@ import Payment from "../Pages/Payment/Payment";
 import PaymentHistory from "../Pages/DashBoard/Student/PaymentHistory/PaymentHistory";
 import UpdateClass from "../Pages/UpdateClass/UpdateClass";
 import PrivateRoutes from "./PrivateRoutes";
+import NotFount from "../Pages/NotFount/NotFount";
 
 
 
@@ -97,4 +98,8 @@ export const router = createBrowserRouter([
       
     ]
   },
+  {
+    path:"*",
+    element:<NotFount></NotFount>
+  }
 ]);

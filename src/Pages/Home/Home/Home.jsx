@@ -9,7 +9,6 @@ import Timer from "../Timer/Timer";
 const Home = () => {
     return (
         <div>
-
             <Banner></Banner>
             <Timer></Timer>
             <PopularClass></PopularClass>
