@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 
 
 const PaymentHistory = () => {
-    const[history, setHistory]=useState([]);
+    const [history, setHistory] = useState([]);
 
     // console.log(history);
-    useEffect(()=>{
+    useEffect(() => {
         fetch('http://localhost:5001/payments')
-        .then(res=>res.json())
-        .then(data=>setHistory(data))
-    },[])
+            .then(res => res.json())
+            .then(data => setHistory(data))
+    }, [])
     return (
         <div>
-            <h2>Payment History Page</h2>
+            <div className=" divider w-52 " style={{ marginLeft: '700px' }}></div>
+            <h2 className=" text-center text-3xl font-bold text-cyan-700">Payment History</h2>
+            <div className=" divider w-52" style={{ marginLeft: '700px' }}></div>
             <div className="overflow-x-auto mt-20 ml-20 mr-20">
                 <table className="table table-zebra">
                     {/* head */}
@@ -29,17 +31,17 @@ const PaymentHistory = () => {
                     <tbody>
                         {
                             history.sort((a, b) => new Date(b.date) - new Date(a.date))
-                            .map((item , index)=> <tr key={item._id}>
-                                <th>{index+1}</th>
-                                <td>{item.itemNames}</td>
-                                <td>{item.itemInstructor}</td>
-                                <td>{item.price}</td>
-                                <td>{item.transactionId}</td>
-                                <td>{item.date}</td>
-                                
-                            </tr>)
+                                .map((item, index) => <tr key={item._id}>
+                                    <th>{index + 1}</th>
+                                    <td>{item.itemNames}</td>
+                                    <td>{item.itemInstructor}</td>
+                                    <td>{item.price}</td>
+                                    <td>{item.transactionId}</td>
+                                    <td>{item.date}</td>
+
+                                </tr>)
                         }
-                        
+
                     </tbody>
                 </table>
             </div>
