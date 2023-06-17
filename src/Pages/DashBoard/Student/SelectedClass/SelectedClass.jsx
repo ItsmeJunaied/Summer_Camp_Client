@@ -37,61 +37,66 @@ const SelectedClass = () => {
             }
         })
     }
+
     return (
-        <div className="CartContainer container mx-auto">
-            <div className=" divider w-52 " style={{marginLeft:'700px'}}></div>
-            <h2 className=" text-center text-3xl font-bold text-cyan-700">My selected Class</h2>
-            <div className=" divider w-52" style={{marginLeft:'700px'}}></div>
-            <div className="Header">
-                <h3 className="Heading text-center">Image</h3>
-                <h3 className="Heading text-center ml-32">Email</h3>
-                <h3 className="Heading text-center ">Instructor</h3>
-                <h3 className="Heading text-center">Course</h3>
-                <h3 className="Heading text-center">Action</h3>
-
+        <>
+            <div>
+                <div className=" divider w-60 " style={{ marginLeft: '700px' }}></div>
+                <h2 className=" text-center text-3xl font-bold text-cyan-700 ml-16">My selected Class</h2>
+                <div className=" divider w-60" style={{ marginLeft: '700px' }}></div>
             </div>
-            {
-                cart.map(item => <div key={item._id}
-                    className="Cart-Items">
-                    <div className="image-box">
-                        <img src={item.image} style={{ height: "120px" }} />
-                    </div>
-                    <div className="about mt-44">
-                        <h1 className="title">{item.email}</h1>
+            <div className="CartContainer container mx-auto">
+                <div className="Header">
+                    <h3 className="Heading text-center">Image</h3>
+                    <h3 className="Heading text-center ml-32">Email</h3>
+                    <h3 className="Heading text-center ">Instructor</h3>
+                    <h3 className="Heading text-center">Course</h3>
+                    <h3 className="Heading text-center">Action</h3>
 
-                    </div>
-                    <div className="counter">
-                        <div className="count">{item.instructorName}</div>
-                    </div>
-                    <div className="counter">
-                        <div className="count">{item.className}</div>
-                    </div>
-                    <div className="prices mt-20">
-                        <div className="amount">${item.price}</div>
-                        <div className=' flex flex-col'>
-                            <button onClick={() => handleDelete(item)} className="remove"><u>Remove</u></button>
-                            <Link to={`/dashboard/payment/${item._id}`} ><button  className="button">Checkout</button></Link>
+                </div>
+                {
+                    cart.map(item => <div key={item._id}
+                        className="Cart-Items">
+                        <div className="image-box">
+                            <img src={item.image} style={{ height: "120px" }} />
+                        </div>
+                        <div className="about mt-44">
+                            <h1 className="title">{item.email}</h1>
+
+                        </div>
+                        <div className="counter">
+                            <div className="count">{item.instructorName}</div>
+                        </div>
+                        <div className="counter">
+                            <div className="count">{item.className}</div>
+                        </div>
+                        <div className="prices mt-20">
+                            <div className="amount">${item.price}</div>
+                            <div className=' flex flex-col'>
+                                <button onClick={() => handleDelete(item)} className="remove"><u>Remove</u></button>
+                                <Link to={`/dashboard/payment/${item._id}`} ><button className="button">Checkout</button></Link>
+                            </div>
+
                         </div>
 
                     </div>
 
-                </div>
-
-                )
-            }
+                    )
+                }
 
 
-            <hr />
-            <div className="checkout">
-                <div className="total">
-                    <div>
-                        <div className="Subtotal">Sub-Total</div>
-                        <div className="items">{cart.length}</div>
+                <hr />
+                <div className="checkout">
+                    <div className="total">
+                        <div>
+                            <div className="Subtotal">Sub-Total</div>
+                            <div className="items">{cart.length}</div>
+                        </div>
+                        <div className="total-amount">${total}</div>
                     </div>
-                    <div className="total-amount">${total}</div>
                 </div>
             </div>
-        </div>
+        </>
 
     );
 };

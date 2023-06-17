@@ -1,12 +1,18 @@
 import { Link } from 'react-router-dom';
 import useClass from '../../../Hooks/useClass';
 import './PopularClass.css';
+import { useState } from 'react';
 
 const PopularClass = () => {
+    
     const [classList] = useClass();
     const sortedClassList = classList.sort((a, b) => b.enrollCount - a.enrollCount);
 
     const limitedClassList = sortedClassList.slice(0, 6);
+
+
+
+    
     return (
         <div className=' container mx-auto  mt-40 mb-40'>
             <div className='pb-20 '>
@@ -25,9 +31,7 @@ const PopularClass = () => {
                     </div>) : null)
                 }
             </div>
-            <div className="flex justify-center mt-20">
-                <button className="btn btn-warning">Show More</button>
-            </div>
+            
 
         </div>
     );

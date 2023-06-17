@@ -8,25 +8,28 @@ import './Class.css';
 
 import useAdmin from "../../Hooks/UseAdmin";
 import UseInstructorCheck from "../../Hooks/UseInstructorCheck";
+import { useState } from "react";
 
 const Class = () => {
   const [isAdmin] = useAdmin();
   const [isInstructor] = UseInstructorCheck();
   const [classList] = useClass();
 
-  // console.log(isAdmin);
+  // console.log(classList.length);
 
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [noofElem, setnoOfElem] = useState(6);
+  const slice = classList.slice(0, noofElem);
   // const selectedItem = { classId: _id, name, className, image, instructorName, price, email: user.email };
   const handleAddToCart = item => {
-    const { _id, name, instructorName,enrollCount,availableSeats,price, className, image } = item;
+    const { _id, name, instructorName, enrollCount, availableSeats, price, className, image } = item;
     console.log(name);
     console.log(item);
     if (user && user.email) {
-      const selectedItem = { classId: _id, name, className, image, instructorName,enrollCount,availableSeats ,price, email: user.email }
+      const selectedItem = { classId: _id, name, className, image, instructorName, enrollCount, availableSeats, price, email: user.email }
       fetch('http://localhost:5001/carts', {
         method: 'POST',
         headers: {
@@ -55,7 +58,9 @@ const Class = () => {
         })
     }
   }
-
+  const loadMore = () => {
+    setnoOfElem(noofElem + noofElem);
+  }
   return (
     <div>
       <div className=" relative overflow-hidden h-96">
@@ -65,9 +70,12 @@ const Class = () => {
           <p className=" text-yellow-600 class-sub text-3xl font-bold">Enroll Now</p>
         </div>
       </div>
+      <div>
+        
+      </div>
       <div className=" grid grid-cols-3 mt-20 pb-20 container mx-auto ">
         {
-          classList.map(item =>
+          slice.map(item =>
             item.status === "approve" ? (
               <div
                 key={item._id}
@@ -101,8 +109,11 @@ const Class = () => {
             ) : null
           )
         }
-
+        
       </div>
+      <div className="flex justify-center mb-20">
+          <button className="btn btn-warning" onClick={(() => loadMore())}>Show More</button>
+        </div>
     </div>
   );
 };
