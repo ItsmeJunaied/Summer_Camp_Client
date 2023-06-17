@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const ManageClass = () => {
-    
+
     const [classList] = useClass();
     const { register, handleSubmit } = useForm();
     const [status, setStatus] = useState('pending');
@@ -51,8 +51,8 @@ const ManageClass = () => {
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        window.location.reload(); 
-                      });
+                        window.location.reload();
+                    });
                 }
             })
     };
@@ -99,7 +99,9 @@ const ManageClass = () => {
 
     return (
         <div className="overflow-x-auto">
-            <h2 className=' font-bold text-5xl text-center text-cyan-600 mb-20'>Manage Class</h2>
+            <div className=" divider w-52 " style={{ marginLeft: '700px' }}></div>
+            <h2 className=" text-center text-3xl font-bold text-cyan-700">Manage Class</h2>
+            <div className=" divider w-52" style={{ marginLeft: '700px' }}></div>
             <table className="table">
                 <thead>
                     <tr>

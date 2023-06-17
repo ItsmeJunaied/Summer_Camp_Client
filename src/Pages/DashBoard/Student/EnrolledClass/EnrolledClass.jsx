@@ -1,52 +1,62 @@
 import { useEffect, useState } from "react";
+import UseAuth from "../../../../Hooks/UseAuth";
 
 
 const EnrolledClass = () => {
+    const { user } = UseAuth();
     const [history, setHistory] = useState([]);
+    const [filteredHistory, setFilteredHistory] = useState([]);
     const [countdown, setCountdown] = useState({
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
     });
-  
+
     // console.log(history);
-  
+
+    // const myHistory=history.find(item=>item.email==user.email);
+    // console.log(myHistory);
+
     useEffect(() => {
-      fetch('http://localhost:5001/payments')
-        .then(res => res.json())
-        .then(data => setHistory(data))
-    }, []);
-  
+        fetch('http://localhost:5001/payments')
+            .then(res => res.json())
+            .then(data => {
+                setHistory(data);
+                const filteredData = data.filter((item) => item.email === user.email);
+                setFilteredHistory(filteredData);
+            })
+    }, [user.email]);
+
     const updateCountdown = () => {
-      const targetDate = new Date('2023-06-30T00:00:00');
-      const now = new Date();
-      const timeDifference = targetDate - now;
-  
-      if (timeDifference > 0) {
-        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-          (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor(
-          (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-        );
-        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-  
-        setCountdown({ days, hours, minutes, seconds });
-      }
+        const targetDate = new Date('2023-06-30T00:00:00');
+        const now = new Date();
+        const timeDifference = targetDate - now;
+
+        if (timeDifference > 0) {
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor(
+                (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+            );
+            const minutes = Math.floor(
+                (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+            );
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            setCountdown({ days, hours, minutes, seconds });
+        }
     };
-  
+
     useEffect(() => {
-      updateCountdown();
-  
-      const countdownInterval = setInterval(updateCountdown, 1000);
-  
-      return () => {
-        clearInterval(countdownInterval);
-      };
+        updateCountdown();
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        return () => {
+            clearInterval(countdownInterval);
+        };
     }, []);
-  
+
     return (
         <div>
             <h2>EnrolledClass</h2>
@@ -60,6 +70,7 @@ const EnrolledClass = () => {
                             </th>
                             <th>Image</th>
                             <th>Course</th>
+                            <th>E-mail</th>
                             <th>Instructor</th>
                             <th>Payment</th>
                             <th>Go To Course</th>
@@ -68,7 +79,7 @@ const EnrolledClass = () => {
                     </thead>
                     <tbody>
                         {
-                            history.map((item, index) => <tr key={item._id}>
+                            filteredHistory.map((item, index) => <tr key={item._id}>
                                 <th>
                                     {index + 1}
                                 </th>
@@ -84,11 +95,12 @@ const EnrolledClass = () => {
                                 <td>
                                     {item.itemNames}
                                 </td>
+                                <td>{item.email} </td>
                                 <td>{item.itemInstructor} </td>
                                 <td>
-                                    {item.price}
+                                    {item.price} $
                                     <br />
-                                    <span className="badge badge-ghost badge-sm bg-success">Payed 🗸</span>
+                                    <span className="badge badge-ghost badge-sm bg-success">Paied 🗸</span>
                                 </td>
                                 <th>
                                     <label htmlFor="my_modal_6" className="btn btn-accent btn-sm">Explore</label>
