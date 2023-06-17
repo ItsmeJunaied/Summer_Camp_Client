@@ -71,7 +71,7 @@ const Class = () => {
         </div>
       </div>
       <div>
-        
+
       </div>
       <div className=" grid grid-cols-3 mt-20 pb-20 container mx-auto ">
         {
@@ -109,11 +109,11 @@ const Class = () => {
             ) : null
           )
         }
-        
+
       </div>
       <div className="flex justify-center mb-20">
-          <button className="btn btn-warning" onClick={(() => loadMore())}>Show More</button>
-        </div>
+        <button className="btn btn-warning" onClick={(() => loadMore())}>Show More</button>
+      </div>
     </div>
   );
 };
