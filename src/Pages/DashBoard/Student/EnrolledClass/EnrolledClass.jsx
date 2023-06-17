@@ -66,7 +66,7 @@ const EnrolledClass = () => {
                 <table className="table">
                     {/* head */}
                     <thead>
-                        <tr>
+                        <tr className=" bg-yellow-500">
                             <th>
                                 Index
                             </th>
