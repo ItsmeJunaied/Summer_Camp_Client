@@ -10,7 +10,7 @@ const EnrolledClass = () => {
       seconds: 0,
     });
   
-    console.log(history);
+    // console.log(history);
   
     useEffect(() => {
       fetch('http://localhost:5001/payments')

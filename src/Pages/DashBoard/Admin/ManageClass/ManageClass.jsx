@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const ManageClass = () => {
+    
     const [classList] = useClass();
     const { register, handleSubmit } = useForm();
     const [status, setStatus] = useState('pending');
@@ -21,6 +22,7 @@ const ManageClass = () => {
             .then(data => {
                 if (data.success) {
                     setIsUpdated(true);
+                    setStatus('approve');
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
@@ -41,13 +43,16 @@ const ManageClass = () => {
             .then(data => {
                 if (data.modifiedCount) {
                     setIsUpdated(true);
+                    setStatus('deny');
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
                         title: ``,
                         showConfirmButton: false,
                         timer: 1500
-                    })
+                    }).then(() => {
+                        window.location.reload(); 
+                      });
                 }
             })
     };
@@ -134,28 +139,46 @@ const ManageClass = () => {
                             <td>{item?.status}</td>
                             <td>
                                 <div className="flex flex-col space-y-2">
-                                    <button
-                                        className="btn btn-primary btn-xs"
-                                        onClick={() => handleApprove(item._id)}
-                                        disabled={status !== 'pending'}
-                                    >
-                                        Approve
-                                    </button>
-                                    <button
-                                        className="btn btn-secondary btn-xs"
-                                        onClick={() => handleDeny(item._id)}
-                                        disabled={status !== 'pending'}
-                                    >
-                                        Deny
-                                    </button>
-                                    <button
-                                        className="btn btn-tertiary btn-xs"
-                                        onClick={() => handleSendFeedback(item._id)}
-                                        disabled={status === 'pending' || status === 'approve'}
-                                    >
-                                        Send Feedback
-                                    </button>
-
+                                    {item.status === 'pending' && (
+                                        <>
+                                            <button
+                                                className="btn btn-primary btn-xs"
+                                                onClick={() => handleApprove(item._id)}
+                                                disabled={status !== 'pending'}
+                                            >
+                                                Approve
+                                            </button>
+                                            <button
+                                                className="btn btn-primary btn-xs"
+                                                onClick={() => handleDeny(item._id)}
+                                                disabled={status !== 'pending'}
+                                            >
+                                                Deny
+                                            </button>
+                                        </>
+                                    )}
+                                    {item.status === 'approve' && (
+                                        <>
+                                            <button className="btn btn-primary btn-xs" disabled>
+                                                Deny
+                                            </button>
+                                            <button
+                                                className="btn btn-tertiary btn-xs"
+                                                onClick={() => handleSendFeedback(item._id)}
+                                                disabled={status === 'pending' || status === 'approve'}
+                                            >
+                                                Send Feedback
+                                            </button>
+                                        </>
+                                    )}
+                                    {item.status === 'deny' && (
+                                        <button
+                                            className="btn btn-primary btn-xs"
+                                            onClick={() => handleSendFeedback(item._id)}
+                                        >
+                                            FeedBack
+                                        </button>
+                                    )}
 
                                 </div>
 
@@ -167,7 +190,8 @@ const ManageClass = () => {
             {modalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center z-50">
                     <div className="w-96 p-4 rounded-md border bg-orange-400">
-                        <div className="flex justify-end">
+                        <div className="flex justify-between mb-4">
+                            <h2 className="text-xl text-center font-semibold">Send Feedback</h2>
                             <button
                                 className="text-gray-500 hover:text-gray-700"
                                 onClick={() => setModalOpen(false)}
@@ -187,7 +211,6 @@ const ManageClass = () => {
                                 </svg>
                             </button>
                         </div>
-                        <h2 className="text-xl text-center font-semibold mb-4">Send Feedback</h2>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <textarea
                                 className="w-full border border-gray-300 rounded-md p-2 mb-4"
@@ -196,17 +219,24 @@ const ManageClass = () => {
                                 {...register('feedback')}
                             />
 
-                            <div className="flex justify-center">
+                            <div className="flex justify-center space-x-4">
                                 <input
                                     type="submit"
                                     className="btn btn-primary"
                                     value="Send"
                                 />
+                                <button
+                                    className="btn btn-secondary"
+                                    onClick={() => setModalOpen(false)}
+                                >
+                                    Close
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
             )}
+
 
         </div>
     );

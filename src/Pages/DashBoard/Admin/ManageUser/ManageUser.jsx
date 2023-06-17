@@ -1,5 +1,5 @@
 
-import { FaChalkboardTeacher, FaTrashAlt, FaUserShield } from "react-icons/fa";
+import {  FaBacon, FaBeer, FaChalkboardTeacher, FaTrashAlt, FaUserShield } from "react-icons/fa";
 import { useQuery } from "react-query";
 import Swal from "sweetalert2";
 import UseAxios from "../../../../Hooks/UseAxios";
@@ -135,7 +135,7 @@ const ManageUser = () => {
                                         'Instructor'
                                     ) : (
                                         <button onClick={() => handleMakeInstructor(user)} className="btn btn-sm btn-accent text-white" disabled={user.role === 'admin'}>
-                                            <FaChalkboardTeacher />
+                                            <FaBeer></FaBeer> 
                                         </button>
                                     )}
                                 </td>

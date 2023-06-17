@@ -9,7 +9,7 @@ import useClass from "../../Hooks/useClass";
 
 
 
-const CheckoutForm = ({ cart, price, classid }) => {
+const CheckoutForm = ({ cart, price, classid, availableSeats, enrollCount }) => {
     const stripe = useStripe();
     const elements = useElements();
     const { user } = UseAuth();
@@ -19,14 +19,23 @@ const CheckoutForm = ({ cart, price, classid }) => {
     const [clientSecret, setClientSecret] = useState('');
     const [processing, setProcessing] = useState(false);
     const [transactionId, setTransactionId] = useState('');
-    const [availableSeats, setAvailableSeats] = useState([]);
+    // const [availableSeats, setAvailableSeats] = useState([]);
+    // const [enrollCount, setEnrollCount] = useState([]);
     const [ClassID, setClassID] = useState('');
 
-    useEffect(() => {
+    console.log('availableSeats', availableSeats);
+    console.log('enroll', enrollCount);
+    // useEffect(() => {
 
-        const seats = classList.map(item => item.availableSeats);
-        setAvailableSeats(seats);
-    }, [classList]);
+    //     const seats = classList.map(item => item.availableSeats);
+    //     setAvailableSeats(seats);
+    // }, [classList]);
+
+    // useEffect(() => {
+
+    //     const enroll = classList.map(item => item.enrollCount);
+    //     setEnrollCount(enroll);
+    // }, [classList]);
 
 
 
@@ -118,32 +127,45 @@ const CheckoutForm = ({ cart, price, classid }) => {
                 classItems: cart.map(item => item.classId),
                 status: 'service pending',
                 itemNames: cart.map(item => item.className),
-                itemInstructor: cart.map(item => item.itemInstructor),
+                itemInstructor: cart.map(item => item.instructorName),
+                // itemEnrollCount: cart.map(item => item.enrollCount),
+                // itemAvailableSeats: cart.map(item => item.availableSeats),
                 itemImage: cart.map(item => item.image)
                 // itemClassId: cart.map(item => item.image)
+                // const newAvailableSeats = parseInt(availableSeats) - 1;
+                //         const newEnrollCount = parseInt(enrollCount) + 1;
             }
             axiosSecure.post('/payments', payment)
-  .then(res => {
-    console.log(res.data);
-    if (res.data.deleteResult.deletedCount > 0) {
-      const newAvailableSeats = parseInt(availableSeats) - 1;
-      axiosSecure.patch(`/class/seat/${ClassID}`, { availableSeats: newAvailableSeats })
-        .then(response => {
-          if (response.data.modifiedCount) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'Removed seat',
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
-  });
+                .then(res => {
+                    // console.log(res.data);
+                    if (res.data.deleteResult.deletedCount > 0) {
+                        const newAvailableSeats = parseInt(availableSeats) - 1;
+                        const newEnrollCount = parseInt(enrollCount) + 1;
+                        console.log('newseat', newAvailableSeats);
+                        axiosSecure.patch(`/class/seat/${ClassID}`, {
+                            availableSeats: newAvailableSeats,
+                            enrollCount: newEnrollCount
+                        })
+                            .then(enrollResponse => {
+                                if (enrollResponse.data.modifiedCount) {
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Payment success seat',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
         }
 
 
@@ -151,7 +173,7 @@ const CheckoutForm = ({ cart, price, classid }) => {
 
     return (
         <>
-            <form className="w-2/3 m-8" onSubmit={handleSubmit}>
+            <form className="w-2/3  ml-96 mr-60 " onSubmit={handleSubmit}>
                 <CardElement
                     options={{
                         style: {
@@ -174,7 +196,7 @@ const CheckoutForm = ({ cart, price, classid }) => {
                 </button>
             </form>
             {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
-            {transactionId && <p className="text-green-500">Transaction complete with transactionId: {transactionId}</p>}
+            {transactionId && <p className="text-green-500 text-2xl font-bold">Transaction complete with transactionId: {transactionId}</p>}
         </>
     );
 };

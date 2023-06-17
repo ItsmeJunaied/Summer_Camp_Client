@@ -22,11 +22,11 @@ const Class = () => {
 
   // const selectedItem = { classId: _id, name, className, image, instructorName, price, email: user.email };
   const handleAddToCart = item => {
-    const { _id, name, instructorName, price, className, image } = item;
+    const { _id, name, instructorName,enrollCount,availableSeats,price, className, image } = item;
     console.log(name);
     console.log(item);
     if (user && user.email) {
-      const selectedItem = { classId: _id, name, className, image, instructorName, price, email: user.email }
+      const selectedItem = { classId: _id, name, className, image, instructorName,enrollCount,availableSeats ,price, email: user.email }
       fetch('http://localhost:5001/carts', {
         method: 'POST',
         headers: {

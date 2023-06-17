@@ -17,6 +17,7 @@ import EnrolledClass from "../Pages/DashBoard/Student/EnrolledClass/EnrolledClas
 import Payment from "../Pages/Payment/Payment";
 import PaymentHistory from "../Pages/DashBoard/Student/PaymentHistory/PaymentHistory";
 import UpdateClass from "../Pages/UpdateClass/UpdateClass";
+import PrivateRoutes from "./PrivateRoutes";
 
 
 
@@ -49,7 +50,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <DashBoard></DashBoard>,
+    element: <PrivateRoutes><DashBoard></DashBoard></PrivateRoutes>,
     children: [
       // admin
       {
