@@ -2,6 +2,8 @@ import useInstructor from '../../../Hooks/useInstructor';
 import './PopularInatructor.css';
 const PopularInstructor = () => {
     const [instructor] = useInstructor();
+
+    const limitedClassList = instructor.slice(0, 6);
     return (
         <div className=' container mx-auto mt-40 mb-40'>
             <div className='pb-20'>
@@ -11,7 +13,7 @@ const PopularInstructor = () => {
             
             <div className=' grid grid-cols-3 mt-20 '>
             {
-                instructor.map(item=><div key={item._id} className="card w-96 bg-base-100 shadow-xl mb-20">
+                limitedClassList.map(item=><div key={item._id} className="card w-96 bg-base-100 shadow-xl mb-20">
                 <figure><img className=" w-fit h-60" src={item.image} alt="Shoes" /></figure>
                 <div className="card-body">
                     <h2 className="card-title"> <span className='badge badge-secondary'>Instructor:</span> <span className=' font-serif'>{item.name}</span></h2>
