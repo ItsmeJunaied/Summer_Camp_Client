@@ -59,7 +59,9 @@ const EnrolledClass = () => {
 
     return (
         <div>
-            <h2>EnrolledClass</h2>
+            <div className=" divider w-52 " style={{marginLeft:'700px'}}></div>
+            <h2 className=" text-center text-3xl font-bold text-cyan-700">My Enrolled Class</h2>
+            <div className=" divider w-52" style={{marginLeft:'700px'}}></div>
             <div className="overflow-x-auto mt-20 ml-20 mr-20">
                 <table className="table">
                     {/* head */}
