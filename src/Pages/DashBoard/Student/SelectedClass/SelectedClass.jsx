@@ -39,6 +39,9 @@ const SelectedClass = () => {
     }
     return (
         <div className="CartContainer container mx-auto">
+            <div className=" divider w-52 " style={{marginLeft:'700px'}}></div>
+            <h2 className=" text-center text-3xl font-bold text-cyan-700">My selected Class</h2>
+            <div className=" divider w-52" style={{marginLeft:'700px'}}></div>
             <div className="Header">
                 <h3 className="Heading text-center">Image</h3>
                 <h3 className="Heading text-center ml-32">Email</h3>
